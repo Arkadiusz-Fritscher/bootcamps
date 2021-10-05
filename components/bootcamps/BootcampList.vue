@@ -1,29 +1,44 @@
 <template>
   <div>
-    <h1>
-      {{ activeFilter }}
-    </h1>
-    <ul>
-      <bootcamp-card
-        v-for="{
-          id,
-          slug,
-          title,
-          subtitle,
-          schedule,
-          address,
-          logo,
-        } in bootcamps"
-        :key="id"
-        :id="id"
-        :slug="slug"
-        :title="title"
-        :subtitle="subtitle"
-        :schedule="schedule"
-        :address="address"
-        :logo="logo"
-      />
-    </ul>
+    <div class="flex justify-between">
+      <h2 class="text-xl font-bold text-gray-900">Bootcamps</h2>
+      <div class="text-xs font-medium text-gray-600">
+        <span>Anzahl:</span><span>{{ bootcamps.length }}</span>
+      </div>
+    </div>
+    <div id="bootcamps" class="my-6">
+      <ul id="bootcamp_list" class="flex flex-wrap gap-6">
+        <bootcamp-card
+          v-for="{
+            id,
+            name,
+            slug,
+            subtitle,
+            website,
+            reviews,
+            logo,
+            addresses,
+            professions,
+            languages,
+            dates,
+            ratings,
+          } in bootcamps"
+          :key="id"
+          :id="id"
+          :name="name"
+          :slug="slug"
+          :subtitle="subtitle"
+          :website="website"
+          :reviews="reviews"
+          :logo="logo"
+          :addresses="addresses"
+          :professions="professions"
+          :languages="languages"
+          :dates="dates"
+          :ratings="ratings"
+        />
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -75,10 +90,11 @@ export default {
   computed: {
     bootcamps() {
       const allBootcamps = this.$store.getters.bootcamps;
-      const filterCount = Object.keys(this.activeFilter).length;
-      if (filterCount === 0) return allBootcamps;
-      const filteredBootcamps = this.bootcampFilter(allBootcamps);
-      return filteredBootcamps;
+      return allBootcamps;
+      // const filterCount = Object.keys(this.activeFilter).length;
+      // if (filterCount === 0) return allBootcamps;
+      // const filteredBootcamps = this.bootcampFilter(allBootcamps);
+      // return filteredBootcamps;
     },
   },
 };

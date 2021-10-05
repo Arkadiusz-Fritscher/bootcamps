@@ -10,55 +10,113 @@ export default {
     const query = gql`
       {
         bootcamps {
+          id
+          name
           slug
-          title
           subtitle
-          schedule {
-            price
-            remote
-            start
-            end
-            address {
-              city
-              name
-              number
-              street
-              zipCode
-              bootcamp {
-                id
-                title
-              }
-            }
-            language
-            profession {
-              title
-              description
+          website
+          ratings {
+            id
+            createdAt
+            rating
+            review
+            bootcamp {
               id
+              slug
             }
-            id
           }
-          address {
-            city
+          reviews {
             id
-            zipCode
-            street
-            number
-            name
+            createdAt
+            title
+            review
+            bootcamp {
+              id
+              name
+              slug
+            }
+            profession {
+              id
+              title
+            }
+            users {
+              id
+              username
+              job
+              company
+            }
           }
           logo {
             url
-            fileName
-            id
+            alternativeText
+            name
+            caption
+            ext
           }
-          id
+          addresses {
+            id
+            name
+            street
+            number
+            zipCode
+            city
+          }
+          professions {
+            id
+            title
+            description
+          }
+          languages {
+            id
+            title
+          }
+          dates {
+            id
+            start
+            end
+            language {
+              id
+              title
+            }
+            address {
+              id
+              name
+              street
+              number
+              zipCode
+              city
+            }
+          }
         }
       }
     `;
     // Query end
 
-    const request = await apollo.query({ query });
-    const bootcamps = await request.data.bootcamps;
-    commit('storeBootcamps', bootcamps);
-    return request.data.bootcamps;
+    try {
+      const request = await apollo.query({ query });
+      const bootcamps = await request.data.bootcamps;
+      commit('setBootcamps', bootcamps);
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  setCookie(_, data) {
+    this.app.$strapi.setToken(data);
+  },
+
+  async login({ commit, dispatch }, { email, pw }) {
+    try {
+      const response = await this.$strapi.login({
+        identifier: email,
+        password: pw,
+      });
+      const { jwt, user } = response;
+      commit('setUser', user);
+      dispatch('setCookie', jwt);
+      this.app.router.push('/');
+    } catch (err) {
+      console.log(err);
+    }
   },
 };

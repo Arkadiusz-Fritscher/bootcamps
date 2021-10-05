@@ -1,31 +1,56 @@
 <template>
-  <li>
-    <div class="bootcamp__card">
-      <img v-if="logo" :src="logo.url" :alt="logo.alt" />
-      <h3>{{ title }}</h3>
-      <span v-if="subtitle">{{ subtitle }}</span>
-    </div>
+  <li class="bootcamp__card" @click="viewDetails">
     <ul>
-      <li>Locations</li>
-      <li v-for="location in address" :key="location.id">
-        {{ location.city }}
+      <li class="flex gap-x-2 mb-2">
+        <div
+          class="
+            bootcamp__logo
+            w-12
+            h-12
+            rounded-lg
+            flex
+            justify-center
+            items-center
+            overflow-hidden
+          "
+        >
+          <img
+            v-if="logo.url"
+            :src="baseUrl + logo.url"
+            :alt="logo.alternativeText"
+            async
+          />
+        </div>
+        <div>
+          <div class="text-lg font-medium text-gray-900">{{ name }}</div>
+          <div class="text-sm text-gray-600">{{ subtitle }}</div>
+          <div class="text-xs">4 Starts</div>
+        </div>
       </li>
-    </ul>
-    <ul>
-      <li>Camps:</li>
-      <li v-for="course in schedule" :key="course.id">
-        {{ formatDate(course.start).time }}
-        {{ formatDate(course.start).day }}
-        {{ formatDate(course.start).date }}
-        {{ formatDate(course.end).time }}
-        {{ formatDate(course.end).day }}
-        {{ formatDate(course.end).date }}
-        {{ course.remote }}
-        {{ course.price }}
-        {{ course.id }}
-        {{ course.language }}
-        {{ course.address.city }}
-        {{ course.profession.title }}
+      <li class="flex flex-wrap gap-2">
+        <span
+          v-for="profession in professions"
+          :key="profession.id"
+          class="profession"
+          >{{ profession.title }}</span
+        >
+      </li>
+      <li class="flex flex-wrap my-2 gap-2">
+        <ul class="data_list">
+          <li class="data_list_title">Sprachen</li>
+          <li
+            v-for="language in languages"
+            :key="language.id"
+            class="data_list_items"
+          >
+            {{ language.title }}
+          </li>
+        </ul>
+        <ul class="data_list">
+          <li class="data_list_title">
+            Reviews: <span>{{ reviews.length }}</span>
+          </li>
+        </ul>
       </li>
     </ul>
   </li>
@@ -34,15 +59,11 @@
 <script>
 export default {
   props: {
-    title: {
+    id: {
       type: String,
       required: true,
     },
-    subtitle: {
-      type: String,
-      default: null,
-    },
-    id: {
+    name: {
       type: String,
       required: true,
     },
@@ -50,14 +71,39 @@ export default {
       type: String,
       required: true,
     },
-    logo: {
-      default: null,
+    subtitle: {
+      type: String,
+      required: true,
     },
-    address: {
+    website: {
+      type: String,
+      required: true,
+    },
+    reviews: {
       type: Array,
       required: true,
     },
-    schedule: {
+    ratings: {
+      type: Array,
+      required: true,
+    },
+    logo: {
+      type: Object,
+      required: true,
+    },
+    addresses: {
+      type: Array,
+      required: true,
+    },
+    professions: {
+      type: Array,
+      required: true,
+    },
+    languages: {
+      type: Array,
+      required: true,
+    },
+    dates: {
       type: Array,
       required: true,
     },
@@ -65,10 +111,15 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    baseUrl() {
+      return this.$store.getters.getBaseUrl;
+    },
+  },
   methods: {
     formatDate(value) {
       const newDate = new Date(value);
-      const formatedDate = new Intl.DateTimeFormat('de-DE', {
+      const formattedDate = new Intl.DateTimeFormat('de-DE', {
         weekday: 'long',
         day: '2-digit',
         month: '2-digit',
@@ -78,19 +129,43 @@ export default {
         hour12: false,
       }).format(newDate);
 
-      const [day, date, time] = formatedDate.split(', ');
+      const [day, date, time] = formattedDate.split(', ');
       return { day, date, time };
     },
+
+    viewDetails() {
+      this.$router.push({ path: `${this.$route.name}/${this.slug}` });
+    },
   },
-  computed: {},
 };
 </script>
 
-<style lang="scss">
-.bootcamp__card {
-  background: $red;
-  @include mq(md) {
-    background: blue;
-  }
+<style>
+.bootcamp__card:hover {
+  cursor: pointer;
+}
+.bootcamp__logo {
+  object-fit: cover;
+  object-position: center center;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.bootcamp__logo img {
+  display: block;
+  width: auto;
+  height: 100%;
+}
+
+.profession {
+  @apply text-xs leading-none py-1 px-2 rounded bg-gray-900 text-gray-50;
+}
+
+.data_list_title {
+  @apply text-xs font-medium text-gray-600 mb-0.5;
+}
+
+.data_list_items {
+  @apply text-base text-gray-900 leading-tight;
 }
 </style>

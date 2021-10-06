@@ -3,7 +3,7 @@
     <div class="md:hidden">
       <span>menu</span>
     </div>
-    <ul class="hidden md:block">
+    <ul class="hidden md:flex">
       <li>
         <nuxt-link
           v-for="link in links"
@@ -12,6 +12,11 @@
           :to="link.name ? { name: link.name } : link.url"
           >{{ link.title }}</nuxt-link
         >
+      </li>
+      <li>
+        <nuxt-link :to="{ name: 'login' }">{{
+          $strapi.user ? 'Logout' : 'Login'
+        }}</nuxt-link>
       </li>
     </ul>
   </nav>
@@ -31,11 +36,6 @@ export default {
           title: 'Bootcamps',
           url: '',
           name: 'bootcamps',
-        },
-        {
-          title: 'Login',
-          url: '',
-          name: 'login',
         },
       ],
     };

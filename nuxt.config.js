@@ -1,6 +1,6 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  target: 'server',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -32,34 +32,55 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    'nuxt-graphql-request',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
-    '@nuxtjs/apollo',
+    // '@nuxtjs/axios',
+    // '@nuxtjs/apollo',
     '@nuxtjs/strapi',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  // axios: {},
 
-  // Apollo module configuration: https://apollo.vuejs.org/guide/apollo/
-  apollo: {
-    clientConfigs: {
-      default: '~/plugins/apollo-config.js',
-      defaultOptions: {
-        httpEndpoint: 'http://localhost:1337/graphql',
-        browserHttpEndpoint: '/graphql',
-        httpLinkOptions: {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
+  // @nuxt-graphql-request https://github.com/Gomah/nuxt-graphql-request
+  graphql: {
+    clients: {
+      default: {
+        /**
+         * The client endpoint url
+         */
+        endpoint:
+          process.env.NODE_ENV === 'production'
+            ? process.env.APOLLO_URL
+            : process.env.APOLLO_URL_DEV,
+        /**
+         * Per-client options overrides
+         * See: https://github.com/prisma-labs/graphql-request#passing-more-options-to-fetch
+         */
+        options: {},
       },
     },
   },
+
+  // Apollo module configuration: https://apollo.vuejs.org/guide/apollo/
+  // apollo: {
+  //   clientConfigs: {
+  //     default: '~/plugins/apollo-config.js',
+  //     defaultOptions: {
+  //       httpEndpoint: 'http://localhost:1337/graphql',
+  //       browserHttpEndpoint: '/graphql',
+  //       httpLinkOptions: {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       },
+  //     },
+  //   },
+  // },
 
   strapi: {
     host:
@@ -68,9 +89,9 @@ export default {
         : process.env.APOLLO_URL_DEV,
   },
 
-  router: {
-    // middleware: 'auth',
-  },
+  // router: {
+  //   middleware: 'auth',
+  // },
 
   // Tailwind module Defaults options
   tailwindcss: {

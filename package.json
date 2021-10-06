@@ -11,12 +11,8 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
-    "@nuxtjs/apollo": "^4.0.1-rc.5",
-    "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/strapi": "^0.3.1",
     "core-js": "^3.15.1",
-    "graphql": "^15.6.0",
-    "graphql-tag": "^2.12.5",
     "nuxt": "^2.15.7"
   },
   "devDependencies": {
@@ -28,6 +24,8 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.12.1",
+    "graphql": "^15.6.1",
+    "nuxt-graphql-request": "^4.1.0",
     "prettier": "^2.3.2"
   }
 }

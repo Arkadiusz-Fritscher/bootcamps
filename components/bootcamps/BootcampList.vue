@@ -2,7 +2,7 @@
   <div>
     <div class="flex justify-between">
       <h2 class="text-xl font-bold text-gray-900">Bootcamps</h2>
-      <div class="text-xs font-medium text-gray-600">
+      <div v-if="bootcamps" class="text-xs font-medium text-gray-600">
         <span>Anzahl:</span><span>{{ bootcamps.length }}</span>
       </div>
     </div>
@@ -23,8 +23,8 @@
             dates,
             ratings,
           } in bootcamps"
-          :key="id"
           :id="id"
+          :key="id"
           :name="name"
           :slug="slug"
           :subtitle="subtitle"
@@ -58,6 +58,17 @@ export default {
     return {};
   },
 
+  computed: {
+    bootcamps() {
+      const allBootcamps = this.$store.getters.bootcamps;
+      return allBootcamps;
+      // const filterCount = Object.keys(this.activeFilter).length;
+      // if (filterCount === 0) return allBootcamps;
+      // const filteredBootcamps = this.bootcampFilter(allBootcamps);
+      // return filteredBootcamps;
+    },
+  },
+
   methods: {
     bootcampFilter(bootcamps) {
       const filtered = bootcamps.filter((bootcamp) => {
@@ -84,17 +95,6 @@ export default {
         return strings === true && objects === true;
       });
       return filtered;
-    },
-  },
-
-  computed: {
-    bootcamps() {
-      const allBootcamps = this.$store.getters.bootcamps;
-      return allBootcamps;
-      // const filterCount = Object.keys(this.activeFilter).length;
-      // if (filterCount === 0) return allBootcamps;
-      // const filteredBootcamps = this.bootcampFilter(allBootcamps);
-      // return filteredBootcamps;
     },
   },
 };

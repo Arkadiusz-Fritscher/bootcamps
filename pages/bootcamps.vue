@@ -1,16 +1,16 @@
 <template>
   <div>
-    <!-- <BootcampFilter @filterChange="setActiveFilter" /> -->
+    <BootcampFilter @filterChange="setActiveFilter" />
     <BootcampList :active-filter="activeFilter" />
   </div>
 </template>
 
 <script>
 import BootcampList from '~/components/bootcamps/BootcampList.vue';
-// import BootcampFilter from '~/components/bootcamps/BootcampFilter.vue';
+import BootcampFilter from '~/components/bootcamps/BootcampFilter.vue';
 
 export default {
-  components: { BootcampList },
+  components: { BootcampList, BootcampFilter },
   data() {
     return {
       activeFilter: {},

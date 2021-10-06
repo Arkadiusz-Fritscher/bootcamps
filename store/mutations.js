@@ -9,11 +9,11 @@ export default {
     state.bootcamps = bootcamps;
   },
 
-  setUser(state, user) {
-    state.user = user;
+  setReviews(state, reviews) {
+    state.reviews = reviews;
   },
 
-  setStrapiToken(state, token) {
-    state.strapiToken = token;
+  setUser(state, user) {
+    state.user = user;
   },
 };

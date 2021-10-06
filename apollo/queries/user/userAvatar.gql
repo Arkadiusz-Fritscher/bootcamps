@@ -1,5 +1,0 @@
-query Bootcamps($id: ID!) {
-  user(id: $id) {
-    username
-  }
-}

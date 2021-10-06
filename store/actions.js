@@ -1,14 +1,14 @@
-import gql from 'graphql-tag';
+import { gql } from 'nuxt-graphql-request';
 
 export default {
   async nuxtServerInit({ dispatch }) {
-    await dispatch('getBootcamps');
+    await dispatch('fetchBootcamps');
+    await dispatch('fetchReviews');
   },
 
-  async getBootcamps({ commit }) {
-    const apollo = this.app.apolloProvider.defaultClient;
+  async fetchBootcamps({ commit }) {
     const query = gql`
-      {
+      query Bootcamps {
         bootcamps {
           id
           name
@@ -92,12 +92,52 @@ export default {
     `;
     // Query end
 
+    const res = await this.$graphql.default.request(query);
+    commit('setBootcamps', res.bootcamps);
+    console.log(res);
+    return res;
+  },
+
+  async fetchReviews({ commit }) {
+    const query = gql`
+      query Reviews {
+        reviews {
+          id
+          title
+          review
+          updatedAt
+          bootcamp {
+            name
+            id
+            slug
+          }
+          profession {
+            id
+            title
+            description
+          }
+          users {
+            id
+            username
+            firstname
+            lastname
+            job
+            company
+            image {
+              id
+              url
+            }
+          }
+        }
+      }
+    `;
+
     try {
-      const request = await apollo.query({ query });
-      const bootcamps = await request.data.bootcamps;
-      commit('setBootcamps', bootcamps);
+      const res = await this.$graphql.default.request(query);
+      commit('setReviews', res.reviews);
+      return res;
     } catch (err) {
-      console.error(err);
+      console.error('Cant fetch Reviews' || err.message);
     }
   },
 
@@ -111,10 +151,9 @@ export default {
         identifier: email,
         password: pw,
       });
-      const { jwt, user } = response;
+      const { user } = response;
       commit('setUser', user);
-      dispatch('setCookie', jwt);
-      this.app.router.push('/');
+      this.app.router.push({ name: 'settings' });
     } catch (err) {
       console.log(err);
     }

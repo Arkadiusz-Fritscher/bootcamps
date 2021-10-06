@@ -1,29 +1,48 @@
 <template>
-  <div>
-    <div class="mb-2">
-      <BaseAvatar :user-id="userData.id" />
+  <li>
+    <review-card-user :user="user" />
+    <div class="mt-4 max-w-lg">
+      <p class="text-xl font-medium pb-1 leading-snug">{{ title }}</p>
+      <p class="text-gray-600">{{ review }}</p>
     </div>
-    <div>
-      {{ review.data }}
-    </div>
-  </div>
+  </li>
 </template>
 
 <script>
+import ReviewCardUser from './reviewCard/ReviewCardUser.vue';
 export default {
+  components: { ReviewCardUser },
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
     review: {
+      type: String,
+      required: true,
+    },
+    bootcamp: {
+      type: Object,
+      required: true,
+    },
+    profession: {
+      type: Object,
+      required: true,
+    },
+    user: {
       type: Object,
       required: true,
     },
   },
 
-  computed: {
-    userData() {
-      const id = this.review.user;
-      const users = this.$store.getters.getUsers;
-      return users.find((user) => user.id === id);
-    },
+  data() {
+    return {};
   },
+
+  computed: {},
 };
 </script>

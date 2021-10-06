@@ -16,7 +16,7 @@
         >
           <img
             v-if="logo.url"
-            :src="baseUrl + logo.url"
+            :src="logo.url"
             :alt="logo.alternativeText"
             async
           />
@@ -111,11 +111,7 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    baseUrl() {
-      return this.$store.getters.getBaseUrl;
-    },
-  },
+
   methods: {
     formatDate(value) {
       const newDate = new Date(value);

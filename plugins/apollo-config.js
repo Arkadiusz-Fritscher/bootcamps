@@ -1,10 +1,11 @@
 export default (context) => {
   return {
     httpLinkOptions: {
-      credentials: 'same-origin',
+      fetchPolicy: 'cache-and-network',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
+        // Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
       },
     },
     httpEndpoint:

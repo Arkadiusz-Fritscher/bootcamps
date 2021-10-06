@@ -49,6 +49,15 @@ export default {
   apollo: {
     clientConfigs: {
       default: '~/plugins/apollo-config.js',
+      defaultOptions: {
+        httpEndpoint: 'http://localhost:1337/graphql',
+        browserHttpEndpoint: '/graphql',
+        httpLinkOptions: {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      },
     },
   },
 
@@ -60,7 +69,7 @@ export default {
   },
 
   router: {
-    middleware: 'auth',
+    // middleware: 'auth',
   },
 
   // Tailwind module Defaults options
@@ -73,13 +82,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-
-  env: {
-    baseUrlDev: 'http://localhost:1337',
-    baseUrlProd: 'https://bootcamps.herokuapp.com',
-    baseGqlUrlProd: 'https://bootcamps.herokuapp.com/graphql',
-    baseGqlUrlDev: 'http://localhost:1337/graphql',
-  },
 
   // https://nuxtjs.org/tutorials/moving-from-nuxtjs-dotenv-to-runtime-config/
   // publicRuntimeConfig: {

@@ -53,10 +53,7 @@ export default {
         /**
          * The client endpoint url
          */
-        endpoint:
-          process.env.NODE_ENV === 'production'
-            ? process.env.APOLLO_URL
-            : process.env.APOLLO_URL_DEV,
+        endpoint: process.env.APOLLO_URL,
         /**
          * Per-client options overrides
          * See: https://github.com/prisma-labs/graphql-request#passing-more-options-to-fetch
@@ -66,27 +63,8 @@ export default {
     },
   },
 
-  // Apollo module configuration: https://apollo.vuejs.org/guide/apollo/
-  // apollo: {
-  //   clientConfigs: {
-  //     default: '~/plugins/apollo-config.js',
-  //     defaultOptions: {
-  //       httpEndpoint: 'http://localhost:1337/graphql',
-  //       browserHttpEndpoint: '/graphql',
-  //       httpLinkOptions: {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       },
-  //     },
-  //   },
-  // },
-
   strapi: {
-    host:
-      process.env.NODE_ENV === 'production'
-        ? process.env.APOLLO_URL
-        : process.env.APOLLO_URL_DEV,
+    host: process.env.STRAPI_URL,
   },
 
   // router: {

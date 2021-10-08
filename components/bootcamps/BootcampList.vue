@@ -55,19 +55,31 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      bootcamps: [],
+    };
   },
 
-  computed: {
-    bootcamps() {
-      const allBootcamps = this.$store.getters.bootcamps;
-      return allBootcamps;
-      // const filterCount = Object.keys(this.activeFilter).length;
-      // if (filterCount === 0) return allBootcamps;
-      // const filteredBootcamps = this.bootcampFilter(allBootcamps);
-      // return filteredBootcamps;
-    },
+  async fetch() {
+    const bootcamps = this.$store.getters.getBootcamps;
+    if (bootcamps) {
+      this.bootcamps = bootcamps;
+    } else {
+      this.bootcamps = await this.$store.dispatch('fetchBootcamps');
+    }
   },
+  fetchOnServer: true,
+
+  // computed: {
+  //   bootcamps() {
+  //     const allBootcamps = this.$store.getters.bootcamps;
+  //     return allBootcamps;
+  //     // const filterCount = Object.keys(this.activeFilter).length;
+  //     // if (filterCount === 0) return allBootcamps;
+  //     // const filteredBootcamps = this.bootcampFilter(allBootcamps);
+  //     // return filteredBootcamps;
+  //   },
+  // },
 
   methods: {
     bootcampFilter(bootcamps) {

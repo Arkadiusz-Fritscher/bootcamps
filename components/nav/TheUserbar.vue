@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="user">
     <div class="w-12 h-12 bg-gray-400 overflow-hidden rounded-full">
       <template v-if="user.image">
         <div
@@ -19,16 +19,19 @@
 
 <script>
 export default {
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
-  },
+  props: {},
   data() {
     return {};
   },
+
   computed: {
+    user() {
+      if (this.$strapi.user) {
+        return this.$strapi.user;
+      } else {
+        return null;
+      }
+    },
     placeholderText() {
       const { firstname, lastname, username } = this.user;
 

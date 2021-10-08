@@ -5,8 +5,11 @@ export default {
     UserContent,
   },
   middleware: ['auth'],
-  mounted() {
-    console.log(this.$strapi.user);
+
+  computed: {
+    user() {
+      return this.$strapi.user;
+    },
   },
 };
 </script>
@@ -14,7 +17,8 @@ export default {
 <template>
   <div>
     <h1 class="mb-6">Usersettings</h1>
-    <user-content />
-    <dir>Strapi:</dir>
+    <client-only>
+      <user-content :user="user" />
+    </client-only>
   </div>
 </template>

@@ -26,14 +26,24 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      reviews: [],
+    };
+  },
+
+  async fetch() {
+    const storedReviews = this.$store.getters.getReviews;
+    if (storedReviews) {
+      this.reviews = storedReviews;
+    } else {
+      this.reviews = await this.$store.dispatch('fetchReviews');
+    }
   },
 
   computed: {
     getReviews() {
       const slug = this.$route.params.slug;
-      const reviews = this.$store.getters.getReviews;
-      return reviews.filter((review) => review.bootcamp.slug === slug);
+      return this.reviews.filter((review) => review.bootcamp.slug === slug);
     },
   },
 };

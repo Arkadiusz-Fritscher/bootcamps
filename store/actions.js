@@ -4,6 +4,7 @@ export default {
   async nuxtServerInit({ dispatch }) {
     await dispatch('fetchBootcamps');
     await dispatch('fetchReviews');
+    await dispatch('fetchRatings');
   },
 
   async fetchBootcamps({ commit }) {
@@ -92,10 +93,9 @@ export default {
     `;
     // Query end
 
-    const res = await this.$graphql.default.request(query);
-    commit('setBootcamps', res.bootcamps);
-    console.log(res);
-    return res;
+    const { bootcamps } = await this.$graphql.default.request(query);
+    commit('setBootcamps', bootcamps);
+    return bootcamps;
   },
 
   async fetchReviews({ commit }) {
@@ -133,12 +133,43 @@ export default {
     `;
 
     try {
-      const res = await this.$graphql.default.request(query);
-      commit('setReviews', res.reviews);
-      return res;
+      const { reviews } = await this.$graphql.default.request(query);
+      commit('setReviews', reviews);
+      return reviews;
     } catch (err) {
       console.error('Cant fetch Reviews' || err.message);
     }
+  },
+
+  async fetchRatings({ commit }) {
+    const query = gql`
+      query Ratings {
+        ratings {
+          id
+          rating
+          updatedAt
+          user {
+            id
+            username
+            image {
+              url
+              alternativeText
+            }
+          }
+          review
+          bootcamp {
+            id
+            slug
+          }
+        }
+      }
+    `;
+
+    try {
+      const res = await this.$graphql.default.request(query);
+      commit('setRatings', res.ratings);
+      return res;
+    } catch (err) {}
   },
 
   setCookie(_, data) {

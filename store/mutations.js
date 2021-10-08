@@ -13,6 +13,10 @@ export default {
     state.reviews = reviews;
   },
 
+  setRatings(state, ratings) {
+    state.ratings = ratings;
+  },
+
   setUser(state, user) {
     state.user = user;
   },

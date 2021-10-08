@@ -13,11 +13,14 @@
           >{{ link.title }}</nuxt-link
         >
       </li>
-      <li>
-        <nuxt-link :to="{ name: 'login' }">{{
-          $strapi.user ? 'Logout' : 'Login'
-        }}</nuxt-link>
-      </li>
+      <client-only>
+        <li v-if="!user">
+          <nuxt-link :to="{ name: 'login' }">Login</nuxt-link>
+        </li>
+        <li v-else>
+          <div class="cursor-pointer" @click="logout">Logout</div>
+        </li>
+      </client-only>
     </ul>
   </nav>
 </template>
@@ -39,6 +42,24 @@ export default {
         },
       ],
     };
+  },
+
+  computed: {
+    user() {
+      const user = this.$strapi.user;
+      if (user) {
+        return user;
+      } else {
+        return null;
+      }
+    },
+  },
+
+  methods: {
+    logout() {
+      this.$strapi.logout();
+      this.$router.push('/');
+    },
   },
 };
 </script>

@@ -3,9 +3,9 @@
     <div>Logo</div>
     <div class="flex gap-x-1 justify-end items-center">
       <TheNav />
-      <template v-if="user">
-        <TheUserbar :user="user" />
-      </template>
+      <client-only>
+        <TheUserbar />
+      </client-only>
     </div>
   </div>
 </template>
@@ -16,16 +16,7 @@ import TheUserbar from './TheUserbar.vue';
 export default {
   components: { TheNav, TheUserbar },
   data() {
-    return {
-      user: null,
-    };
-  },
-
-  mounted() {
-    this.$strapi.user ? (this.user = this.$strapi.user) : (this.user = null);
-    this.$strapi.hook('userUpdated', (user) => {
-      this.user = user;
-    });
+    return {};
   },
 };
 </script>

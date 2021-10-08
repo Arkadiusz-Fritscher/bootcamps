@@ -4,11 +4,24 @@ export default {
   components: {
     RatingCard,
   },
+  data() {
+    return {
+      ratings: [],
+    };
+  },
+  async fetch() {
+    this.ratings = this.$store.getters.getRatings;
+    if (this.ratings.length === 0) {
+      this.ratings = await this.$store.dispatch('fetchRatings');
+    }
+  },
   computed: {
-    ratings() {
-      const ratings = this.$store.getters.getRatings;
+    currentRatings() {
       const slug = this.$route.params.slug;
-      return ratings.filter((rating) => rating.bootcamp.slug === slug);
+      if (this.ratings.length > 0) {
+        return this.ratings.filter((rating) => rating.bootcamp.slug === slug);
+      }
+      return [];
     },
   },
 };
@@ -17,6 +30,10 @@ export default {
 <template>
   <div>
     <h1>List of Ratings</h1>
-    <rating-card v-for="rating in ratings" :key="rating.id" :rating="rating" />
+    <rating-card
+      v-for="rating in currentRatings"
+      :key="rating.id"
+      :rating="rating"
+    />
   </div>
 </template>

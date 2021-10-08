@@ -12,7 +12,9 @@
         :user="review.users"
       />
     </ul>
-    <CreateReview />
+    <client-only>
+      <CreateReview />
+    </client-only>
   </div>
 </template>
 

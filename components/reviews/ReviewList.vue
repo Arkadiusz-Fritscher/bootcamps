@@ -33,7 +33,7 @@ export default {
 
   async fetch() {
     const storedReviews = this.$store.getters.getReviews;
-    if (storedReviews) {
+    if (storedReviews.length > 0) {
       this.reviews = storedReviews;
     } else {
       this.reviews = await this.$store.dispatch('fetchReviews');
@@ -43,7 +43,10 @@ export default {
   computed: {
     getReviews() {
       const slug = this.$route.params.slug;
-      return this.reviews.filter((review) => review.bootcamp.slug === slug);
+      if (this.reviews.length > 0) {
+        return this.reviews.filter((review) => review.bootcamp.slug === slug);
+      }
+      return [];
     },
   },
 };

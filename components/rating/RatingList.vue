@@ -10,9 +10,11 @@ export default {
     };
   },
   async fetch() {
-    this.ratings = this.$store.getters.getRatings;
-    if (this.ratings.length === 0) {
+    const ratings = this.$store.getters.getRatings;
+    if (ratings.length === 0) {
       this.ratings = await this.$store.dispatch('fetchRatings');
+    } else {
+      this.ratings = ratings;
     }
   },
   computed: {

@@ -166,9 +166,9 @@ export default {
     `;
 
     try {
-      const res = await this.$graphql.default.request(query);
-      commit('setRatings', res.ratings);
-      return res;
+      const { ratings } = await this.$graphql.default.request(query);
+      commit('setRatings', ratings);
+      return ratings;
     } catch (err) {}
   },
 

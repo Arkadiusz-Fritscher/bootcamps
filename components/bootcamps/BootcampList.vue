@@ -53,61 +53,42 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      bootcamps: [],
-    };
-  },
-
-  async fetch() {
-    const bootcamps = this.$store.getters.getBootcamps;
-    if (bootcamps) {
-      this.bootcamps = bootcamps;
-    } else {
-      this.bootcamps = await this.$store.dispatch('fetchBootcamps');
-    }
-  },
-  fetchOnServer: true,
-
-  // computed: {
-  //   bootcamps() {
-  //     const allBootcamps = this.$store.getters.bootcamps;
-  //     return allBootcamps;
-  //     // const filterCount = Object.keys(this.activeFilter).length;
-  //     // if (filterCount === 0) return allBootcamps;
-  //     // const filteredBootcamps = this.bootcampFilter(allBootcamps);
-  //     // return filteredBootcamps;
-  //   },
-  // },
-
-  methods: {
-    bootcampFilter(bootcamps) {
-      const filtered = bootcamps.filter((bootcamp) => {
-        let strings = true;
-        let objects = true;
-        for (const i in this.activeFilter) {
-          if (typeof this.activeFilter[i] === 'string') {
-            if (!bootcamp[i].includes(this.activeFilter[i])) {
-              strings = false;
-            }
-          }
-
-          if (typeof this.activeFilter[i] === 'object') {
-            for (const val of this.activeFilter[i]) {
-              if (bootcamp[i].includes(val)) {
-                objects = true;
-                break;
-              } else {
-                objects = false;
-              }
-            }
-          }
-        }
-        return strings === true && objects === true;
-      });
-      return filtered;
+    bootcamps: {
+      type: Array,
+      required: true,
     },
   },
+  data() {
+    return {};
+  },
+
+  // methods: {
+  //   bootcampFilter(bootcamps) {
+  //     const filtered = bootcamps.filter((bootcamp) => {
+  //       let strings = true;
+  //       let objects = true;
+  //       for (const i in this.activeFilter) {
+  //         if (typeof this.activeFilter[i] === 'string') {
+  //           if (!bootcamp[i].includes(this.activeFilter[i])) {
+  //             strings = false;
+  //           }
+  //         }
+
+  //         if (typeof this.activeFilter[i] === 'object') {
+  //           for (const val of this.activeFilter[i]) {
+  //             if (bootcamp[i].includes(val)) {
+  //               objects = true;
+  //               break;
+  //             } else {
+  //               objects = false;
+  //             }
+  //           }
+  //         }
+  //       }
+  //       return strings === true && objects === true;
+  //     });
+  //     return filtered;
+  //   },
+  // },
 };
 </script>

@@ -2,7 +2,7 @@
   <div id="reviews">
     <ul class="space-y-16">
       <ReviewCard
-        v-for="review in getReviews"
+        v-for="review in reviews"
         :id="review.id"
         :key="review.id"
         :title="review.title"
@@ -26,29 +26,10 @@ export default {
     ReviewCard,
     CreateReview,
   },
-
-  data() {
-    return {
-      reviews: [],
-    };
-  },
-
-  async fetch() {
-    const storedReviews = this.$store.getters.getReviews;
-    if (storedReviews.length > 0) {
-      this.reviews = storedReviews;
-    } else {
-      this.reviews = await this.$store.dispatch('fetchReviews');
-    }
-  },
-
-  computed: {
-    getReviews() {
-      const slug = this.$route.params.slug;
-      if (this.reviews.length > 0) {
-        return this.reviews.filter((review) => review.bootcamp.slug === slug);
-      }
-      return [];
+  props: {
+    reviews: {
+      type: Array,
+      required: true,
     },
   },
 };

@@ -93,9 +93,10 @@ export default {
     `;
     // Query end
 
-    const { bootcamps } = await this.$graphql.default.request(query);
+    const res = this.$graphql.default.request(query);
+    const { bootcamps } = await res;
     commit('setBootcamps', bootcamps);
-    return bootcamps;
+    return res;
   },
 
   async fetchReviews({ commit }) {
@@ -133,9 +134,10 @@ export default {
     `;
 
     try {
-      const { reviews } = await this.$graphql.default.request(query);
+      const res = this.$graphql.default.request(query);
+      const { reviews } = await res;
       commit('setReviews', reviews);
-      return reviews;
+      return res;
     } catch (err) {
       console.error('Cant fetch Reviews' || err.message);
     }
@@ -166,9 +168,10 @@ export default {
     `;
 
     try {
-      const { ratings } = await this.$graphql.default.request(query);
+      const res = this.$graphql.default.request(query);
+      const { ratings } = await res;
       commit('setRatings', ratings);
-      return ratings;
+      return res;
     } catch (err) {}
   },
 

@@ -19,19 +19,17 @@
 
 <script>
 export default {
-  props: {},
   data() {
-    return {};
+    return {
+      isLogin: 'false',
+    };
   },
 
   computed: {
     user() {
-      if (this.$strapi.user) {
-        return this.$strapi.user;
-      } else {
-        return null;
-      }
+      return this.$strapi.user;
     },
+
     placeholderText() {
       const { firstname, lastname, username } = this.user;
 
